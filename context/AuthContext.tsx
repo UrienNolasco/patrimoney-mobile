@@ -1,9 +1,8 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
-
-const API_URL = "http://192.168.15.4:3000";
+const API_URL = "http://192.168.18.25:3000";
 const api = axios.create({
   baseURL: API_URL,
 });
