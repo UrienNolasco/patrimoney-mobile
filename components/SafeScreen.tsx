@@ -8,7 +8,6 @@ const SafeScreen: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
   return (
     <View
       style={{
-        paddingTop: insets.top,
         flex: 1,
         backgroundColor: COLORS.background,
       }}

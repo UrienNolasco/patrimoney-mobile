@@ -1,62 +1,85 @@
-import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Image } from "expo-image";
 import { Link } from "expo-router";
+import React from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import SafeScreen from "../components/SafeScreen";
 import { COLORS } from "../constants/colors";
+
+const authImage = require("../assets/images/authImage.svg");
 
 const AboutScreen = () => {
   return (
     <SafeScreen>
-      <View style={styles.container}>
-        <Text style={styles.logo}>Seu Logo Aqui</Text>
-        <Text style={styles.title}>Bem-vindo ao [Nome do App]</Text>
-        <Text style={styles.subtitle}>
-          Sua solução completa para [o que seu app faz].
-        </Text>
+      <View style={styles.pageContainer}>
+        <Image
+          style={styles.image}
+          source={authImage}
+          contentFit="cover"
+          contentPosition="bottom"
+        />
 
-        <Link href="/signin" asChild>
-          <Pressable style={styles.button}>
-            <Text style={styles.buttonText}>Começar</Text>
-          </Pressable>
-        </Link>
+        {/* O container de conteúdo agora organiza os itens de forma diferente */}
+        <View style={styles.contentContainer}>
+          {/* ---- PARTE DE CIMA DO CONTEÚDO ---- */}
+          <View>
+            <Text style={styles.title}>Bem-vindo ao PatriMoney</Text>
+            <Text style={styles.subtitle}>
+              Para você que está cansado de depender das corretoras para mostrar
+              corretamente a evolução do seu patrimônio.
+            </Text>
+          </View>
+
+          {/* ---- O SPACER (EMPILHADOR) ---- */}
+          {/* Esta View vazia com flex: 1 ocupa todo o espaço restante */}
+          <View style={{ flex: 1 }} />
+
+          {/* ---- PARTE DE BAIXO DO CONTEÚDO ---- */}
+          <Link href="/signin" asChild>
+            <Pressable style={styles.button}>
+              <Text style={styles.buttonText}>Começar</Text>
+            </Pressable>
+          </Link>
+        </View>
       </View>
     </SafeScreen>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  pageContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
     backgroundColor: COLORS.background,
   },
-  logo: {
-    fontSize: 48,
-    fontWeight: "bold",
-    color: COLORS.primary,
-    marginBottom: 40,
+  image: {
+    width: "100%",
+    height: "60%", // Você pode controlar a altura da imagem aqui
+  },
+  contentContainer: {
+    flex: 1,
+    paddingHorizontal: 24, // Padding nas laterais
+    paddingBottom: 24, // Padding embaixo para o botão não colar na borda
+    // A propriedade justifyContent foi removida para termos controle manual
   },
   title: {
-    fontSize: 28,
+    fontSize: 50, // Ajustei um pouco para caber melhor
     fontWeight: "bold",
-    color: COLORS.text,
-    textAlign: "center",
-    marginBottom: 10,
+    color: COLORS.primary,
+    textAlign: "left",
+    marginTop: -70,
+    marginBottom: 5,
   },
   subtitle: {
-    fontSize: 18,
-    color: COLORS.text,
-    textAlign: "center",
-    marginBottom: 60,
+    fontSize: 16,
+    color: COLORS.secondary,
+    textAlign: "left",
+    lineHeight: 24,
   },
   button: {
-    backgroundColor: COLORS.primary,
-    paddingVertical: 15,
-    paddingHorizontal: 80,
-    borderRadius: 10,
-    elevation: 3, // Sombra para Android
+    backgroundColor: COLORS.shadow,
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: "center",
+    elevation: 3,
   },
   buttonText: {
     color: "#FFFFFF",
