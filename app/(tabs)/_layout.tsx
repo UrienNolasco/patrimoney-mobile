@@ -10,11 +10,11 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: true, // Ou false, se não quiser header em cada aba
-        tabBarActiveTintColor: COLORS.primary,
+        headerShown: false, // Ou false, se não quiser header em cada aba
+        tabBarActiveTintColor: COLORS.textPrimary,
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
-          backgroundColor: COLORS.background,
+          backgroundColor: COLORS.card,
         },
       }}
     >

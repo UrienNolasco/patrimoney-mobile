@@ -39,7 +39,10 @@ const ProtectedLayout = () => {
           backgroundColor: COLORS.background,
         }}
       >
-        <ActivityIndicator size="large" color={COLORS.primary || "#0000ff"} />
+        <ActivityIndicator
+          size="large"
+          color={COLORS.textPrimary || "#0000ff"}
+        />
       </View>
     );
   }

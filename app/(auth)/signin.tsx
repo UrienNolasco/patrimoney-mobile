@@ -74,7 +74,7 @@ const SignInScreen = () => {
               onChangeText={setEmail}
               keyboardType="email-address"
               autoCapitalize="none"
-              placeholderTextColor={COLORS.secondary}
+              placeholderTextColor={COLORS.textSecondary}
             />
 
             {/* --- Bloco da Senha Refatorado --- */}
@@ -87,13 +87,13 @@ const SignInScreen = () => {
                 onChangeText={setPassword}
                 secureTextEntry={!isPasswordVisible}
                 autoCapitalize="none"
-                placeholderTextColor={COLORS.secondary}
+                placeholderTextColor={COLORS.textSecondary}
               />
               <Pressable onPress={() => setPasswordVisible(!isPasswordVisible)}>
                 <Feather
                   name={isPasswordVisible ? "eye" : "eye-off"} // <-- NOVO: Ícone dinâmico
                   size={22}
-                  color={COLORS.secondary}
+                  color={COLORS.textPrimary}
                   style={styles.eyeIcon}
                 />
               </Pressable>
@@ -146,21 +146,21 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 36,
     fontWeight: "bold",
-    color: COLORS.primary,
+    color: COLORS.textPrimary,
     marginBottom: 30,
   },
   label: {
     fontSize: 16,
-    color: COLORS.secondary,
+    color: COLORS.textPrimary,
     marginBottom: 8,
   },
   input: {
     height: 50,
     borderBottomWidth: 2,
-    borderBottomColor: COLORS.primary,
+    borderBottomColor: COLORS.textPrimary,
     paddingHorizontal: 10,
     marginBottom: 20,
-    color: COLORS.text,
+    color: COLORS.textPrimary,
     fontSize: 16,
   },
   // NOVO: Container para agrupar o input de senha e o ícone
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderBottomWidth: 2,
-    borderBottomColor: COLORS.primary,
+    borderBottomColor: COLORS.textPrimary,
     marginBottom: 20,
   },
   // NOVO: Estilo para o input de senha dentro do novo container
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     flex: 1, // Ocupa todo o espaço, empurrando o ícone para a direita
     height: 50,
     paddingHorizontal: 10,
-    color: COLORS.text,
+    color: COLORS.textPrimary,
     fontSize: 16,
   },
   // NOVO: Estilo para o ícone
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     padding: 10, // Aumenta a área de toque
   },
   button: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.card,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: "center",
@@ -203,11 +203,11 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   footerText: {
-    color: COLORS.text,
+    color: COLORS.textSecondary,
     fontSize: 16,
   },
   linkText: {
-    color: COLORS.primary,
+    color: COLORS.textPrimary,
     fontSize: 16,
     fontWeight: "bold",
   },
