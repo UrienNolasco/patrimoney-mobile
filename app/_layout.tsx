@@ -25,7 +25,7 @@ const ProtectedLayout = () => {
     // Se estiver autenticado E estiver em uma tela de auth,
     // redirecione para a tela principal (home/index dentro das abas).
     else if (isAuthenticated && inAuthGroup) {
-      router.replace("/" as Href);
+      router.replace("/(tabs)/resumo" as Href);
     }
   }, [isLoading, authState.isAuthenticated, segments]);
 

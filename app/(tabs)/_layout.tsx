@@ -1,5 +1,6 @@
+import IconeMetas from "@/components/IconeMetas";
+import IconeResume from "@/components/IconeResume";
 import { FontAwesome } from "@expo/vector-icons";
-import Feather from "@expo/vector-icons/Feather";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { Tabs } from "expo-router";
 import React from "react";
@@ -22,7 +23,7 @@ export default function TabLayout() {
         options={{
           title: "Resumo",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="home" size={size} color={color} />
+            <IconeResume color={color} size={size * 0.9} />
           ),
         }}
       />
@@ -40,7 +41,7 @@ export default function TabLayout() {
         options={{
           title: "Metas",
           tabBarIcon: ({ color, size }) => (
-            <Feather name="target" size={size} color={color} />
+            <IconeMetas color={color} size={size * 0.9} />
           ),
         }}
       />
