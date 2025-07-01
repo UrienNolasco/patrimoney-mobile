@@ -1,8 +1,14 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from "react-native";
 import { COLORS } from "../constants/colors"; // Usando suas cores!
 
-// --- Tipos para as Props ---
 type InfoCardProps = {
   children: React.ReactNode;
 };
@@ -14,13 +20,15 @@ type HeaderProps = {
 
 type ContentProps = {
   mainValue: string;
-  sideComponent?: React.ReactNode; // Para o item à direita (ex: a pílula de -2%)
+  sideComponent?: React.ReactNode;
 };
 
 type FooterProps = {
-  label: string;
-  value: string;
+  children: React.ReactNode;
+  style?: StyleProp<ViewStyle>; // Prop de estilo opcional
 };
+
+const screenWidth = Dimensions.get("window").width;
 
 // --- Componente Principal (Wrapper) ---
 const InfoCard = ({ children }: InfoCardProps) => {
@@ -44,15 +52,11 @@ const Content = ({ mainValue, sideComponent }: ContentProps) => (
 );
 
 // --- Sub-componente Footer ---
-const Footer = ({ label, value }: FooterProps) => (
-  <View style={styles.footerContainer}>
-    <Text style={styles.footerLabel}>{label}</Text>
-    <Text style={styles.footerValue}>{value}</Text>
-  </View>
+const Footer = ({ children, style }: FooterProps) => (
+  // O container agora usa tanto o estilo base quanto o customizado que for passado
+  <View style={[styles.footerContainer, style]}>{children}</View>
 );
 
-// Atribuindo os sub-componentes ao componente principal.
-// É isso que nos permite usar a sintaxe `InfoCard.Header`, etc.
 InfoCard.Header = Header;
 InfoCard.Content = Content;
 InfoCard.Footer = Footer;
@@ -60,44 +64,38 @@ InfoCard.Footer = Footer;
 // --- Estilos ---
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: COLORS.card, // Uma cor escura, como na imagem. Use COLORS.surface se tiver.
+    backgroundColor: COLORS.card,
     borderRadius: 16,
     padding: 24,
     marginVertical: 12,
-    marginHorizontal: 16,
-    // Sombra sutil para um efeito de profundidade
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 8,
+    marginHorizontal: 12,
+    width: screenWidth * 0.8,
   },
   // Header
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20, // Espaço entre header e content
+    marginBottom: 20,
   },
   headerTitle: {
-    fontSize: 16,
-    color: COLORS.textSecondary || "#A0A0A0", // Cor secundária para o título
+    fontSize: 20,
+    color: COLORS.textSecondary || "#A0A0A0",
     marginLeft: 12,
   },
   // Content
   contentContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-end", // Alinha o valor principal e a pílula pela base
-    marginBottom: 20, // Espaço entre content e footer
+    alignItems: "flex-end",
+    marginBottom: 16,
   },
   mainValueText: {
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: "bold",
-    color: COLORS.textPrimary || "#FFFFFF", // Cor primária para o valor
+    color: COLORS.textPrimary || "#FFFFFF",
   },
-  // Footer
   footerContainer: {
-    // Layout padrão vertical já funciona aqui
+    marginTop: 8,
   },
   footerLabel: {
     fontSize: 16,
