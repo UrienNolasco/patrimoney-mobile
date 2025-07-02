@@ -1,4 +1,4 @@
-import CustomHeader from "@/components/CustomHeader";
+import { CustomHeader } from "@/components/CustomHeader";
 import { HeaderWrapper } from "@/components/headerWrapper";
 import IconeMetas from "@/components/IconeMetas";
 import IconeResume from "@/components/IconeResume";

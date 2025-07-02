@@ -72,27 +72,25 @@ export default function Resumo() {
   }
 
   return (
-    <SafeScreen>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Minha Carteira</Text>
-        </View>
-
-        <FlatList
-          style={styles.listStyle}
-          data={cards}
-          renderItem={renderCard}
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.flatListContainer}
-        />
-
-        <View style={styles.contentBelow}>
-          <Text style={styles.sectionTitle}>Meus Ativos</Text>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Minha Carteira</Text>
       </View>
-    </SafeScreen>
+
+      <FlatList
+        style={styles.listStyle}
+        data={cards}
+        renderItem={renderCard}
+        keyExtractor={(item) => item.id}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.flatListContainer}
+      />
+
+      <View style={styles.contentBelow}>
+        <Text style={styles.sectionTitle}>Meus Ativos</Text>
+      </View>
+    </View>
   );
 }
 
@@ -111,6 +109,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   header: {
+    paddingTop: 10,
     paddingHorizontal: 16,
   },
   headerTitle: {
