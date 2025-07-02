@@ -51,6 +51,10 @@ const Content = ({ mainValue, sideComponent }: ContentProps) => (
   </View>
 );
 
+const CustomContent = ({ children }: { children: React.ReactNode }) => (
+  <View style={{ padding: 16 }}>{children}</View>
+);
+
 // --- Sub-componente Footer ---
 const Footer = ({ children, style }: FooterProps) => (
   // O container agora usa tanto o estilo base quanto o customizado que for passado
@@ -60,6 +64,7 @@ const Footer = ({ children, style }: FooterProps) => (
 InfoCard.Header = Header;
 InfoCard.Content = Content;
 InfoCard.Footer = Footer;
+InfoCard.CustomContent = CustomContent;
 
 // --- Estilos ---
 const styles = StyleSheet.create({
