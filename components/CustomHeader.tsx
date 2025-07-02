@@ -1,14 +1,14 @@
+import { COLORS } from "@/constants/colors";
+import { useAuth } from "@/context/AuthContext"; // Importe seu hook de autenticação
+import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
   ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { useAuth } from "@/context/AuthContext"; // Importe seu hook de autenticação
-import { COLORS } from "@/constants/colors";
 
 export const CustomHeader = () => {
   // Usamos o hook para acessar o estado de autenticação, incluindo a carteira

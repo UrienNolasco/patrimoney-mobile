@@ -29,9 +29,7 @@ export default function Resumo() {
         }
         title={item.title}
       />
-      <InfoCard.Content
-        mainValue={item.mainValue}
-      />
+      <InfoCard.Content mainValue={item.mainValue} />
 
       {item.type === "patrimonio" && (
         <InfoCard.Footer>
@@ -113,7 +111,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   header: {
-    paddingBottom: 24,
     paddingHorizontal: 16,
   },
   headerTitle: {
