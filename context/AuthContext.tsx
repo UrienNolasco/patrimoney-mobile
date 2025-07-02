@@ -18,10 +18,20 @@ interface User {
   name: string;
 }
 
+interface Wallet {
+  id: string;
+  userId: string;
+  name: string;
+  description: string | null;
+  currency: string;
+  isActive: boolean;
+}
+
 // Representa o estado completo da nossa autenticação
 interface AuthState {
   token: string | null;
   user: User | null;
+  wallet: Wallet | null;
   isAuthenticated: boolean;
 }
 
@@ -34,14 +44,8 @@ interface AuthContextData {
   logout(): void;
 }
 
-// --- CRIAÇÃO DO CONTEXTO ---
-// Criamos o contexto com um valor inicial `undefined` para garantir
-// que ele nunca seja usado fora de um AuthProvider.
 const AuthContext = createContext<AuthContextData | undefined>(undefined);
 
-// --- HOOK CUSTOMIZADO (useAuth) ---
-// Este hook facilita o uso do contexto, evitando a necessidade de
-// verificar se o contexto é undefined em todos os componentes.
 export const useAuth = (): AuthContextData => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -58,6 +62,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
     token: null,
     user: null,
     isAuthenticated: false,
+    wallet: null,
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -72,9 +77,17 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
           api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
           // Buscamos os dados do usuário com o token
-          const { data: userData } = await api.get<User>("/auth/profile");
+          const [userResponse, walletResponse] = await Promise.all([
+            api.get<User>("/auth/profile"),
+            api.get<Wallet>("/wallet"),
+          ]);
 
-          setAuthState({ token, user: userData, isAuthenticated: true });
+          setAuthState({
+            token,
+            user: userResponse.data,
+            isAuthenticated: true,
+            wallet: walletResponse.data,
+          });
         }
       } catch (error) {
         // Se o token for inválido ou a API falhar, limpamos tudo
@@ -100,12 +113,16 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
       api.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
 
       // Buscar dados do usuário
-      const { data: userData } = await api.get<User>("/auth/profile");
+      const [userResponse, walletResponse] = await Promise.all([
+        api.get<User>("/auth/profile"),
+        api.get<Wallet>("/wallet"),
+      ]);
 
       // Atualizar o estado
       setAuthState({
         token: access_token,
-        user: userData,
+        user: userResponse.data,
+        wallet: walletResponse.data, // <-- Adicionado
         isAuthenticated: true,
       });
 
@@ -140,7 +157,12 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
     // Limpar tudo
     await AsyncStorage.removeItem(AUTH_TOKEN_KEY);
     delete api.defaults.headers.common["Authorization"];
-    setAuthState({ token: null, user: null, isAuthenticated: false });
+    setAuthState({
+      token: null,
+      user: null,
+      wallet: null,
+      isAuthenticated: false,
+    });
   };
 
   const value: AuthContextData = {

@@ -1,3 +1,5 @@
+import CustomHeader from "@/components/CustomHeader";
+import { HeaderWrapper } from "@/components/headerWrapper";
 import IconeMetas from "@/components/IconeMetas";
 import IconeResume from "@/components/IconeResume";
 import { FontAwesome } from "@expo/vector-icons";
@@ -10,7 +12,11 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false, // Ou false, se não quiser header em cada aba
+        header: () => (
+          <HeaderWrapper>
+            <CustomHeader />
+          </HeaderWrapper>
+        ), // Use seu CustomHeader aqui
         tabBarActiveTintColor: COLORS.textPrimary,
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
