@@ -51,11 +51,7 @@ export const AddAtivoModal: React.FC<AddAtivoModalProps> = ({
           <View style={styles.header}>
             <Text style={styles.title}>Adicionar Ativo</Text>
             <Pressable onPress={onClose}>
-              <FontAwesome5
-                name="times"
-                size={24}
-                color={COLORS.textSecondary}
-              />
+              <FontAwesome5 name="times" size={24} color={COLORS.white} />
             </Pressable>
           </View>
 

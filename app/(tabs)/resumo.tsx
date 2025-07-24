@@ -1,8 +1,9 @@
 import { PercentagePill } from "@/components/BadgePercentage";
 import InfoCard from "@/components/InfoCard";
+import { PortfolioTable } from "@/components/PortfolioTable";
 import SafeScreen from "@/components/SafeScreen";
 import { COLORS } from "@/constants/colors";
-import { usePortfolio } from "@/hooks/usePortfolio";
+import { usePortfolio } from "@/hooks/UsePortfolio";
 import { CardData } from "@/types/resumo";
 import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
@@ -89,6 +90,7 @@ export default function Resumo() {
 
       <View style={styles.contentBelow}>
         <Text style={styles.sectionTitle}>Meus Ativos</Text>
+        <PortfolioTable />
       </View>
     </View>
   );

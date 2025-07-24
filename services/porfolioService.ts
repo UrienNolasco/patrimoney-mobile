@@ -1,12 +1,5 @@
 import { api } from "@/context/AuthContext";
-
-export type PortfolioApiResponse = {
-  patrimonio_investido: string;
-  patrimonio_real: string;
-  ganho_perda_total: string;
-  ganho_perda_percentual: string;
-  items: any[];
-};
+import { PortfolioApiResponse } from "@/types/portfolio";
 
 const PORTFOLIO_ENDPOINT = "/portfolio";
 
