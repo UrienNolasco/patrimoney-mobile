@@ -9,13 +9,15 @@ import {
   Text,
   View,
 } from "react-native";
-import { AddAtivoModal, FormData } from "./AddAtivoModal";
+import { AddAtivoModal } from "./AddAtivoModal";
+import { TransactionFormData } from "@/types/transactions";
+
 
 export const CustomHeader = () => {
   const { authState, isLoading } = useAuth();
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const handleSaveTransaction = (data: FormData) => {
+  const handleSaveTransaction = (data: TransactionFormData) => {
     // 1. Adicione o walletId que você já tem no seu authState
     const transactionData = {
       ...data,
