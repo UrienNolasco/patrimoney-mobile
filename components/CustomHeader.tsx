@@ -1,7 +1,7 @@
 import { COLORS } from "@/constants/colors";
 import { useAuth } from "@/context/AuthContext"; // Importe seu hook de autenticação
 import { FontAwesome5 } from "@expo/vector-icons";
-import React from "react";
+import React, { useState } from "react";
 import {
   ActivityIndicator,
   Pressable,
@@ -9,12 +9,28 @@ import {
   Text,
   View,
 } from "react-native";
+import { AddAtivoModal, FormData } from "./AddAtivoModal";
 
 export const CustomHeader = () => {
-  // Usamos o hook para acessar o estado de autenticação, incluindo a carteira
   const { authState, isLoading } = useAuth();
+  const [isModalVisible, setModalVisible] = useState(false);
 
-  // Enquanto os dados do usuário/carteira estão sendo carregados, mostramos um indicador
+  const handleSaveTransaction = (data: FormData) => {
+    // 1. Adicione o walletId que você já tem no seu authState
+    const transactionData = {
+      ...data,
+      walletId: authState.wallet?.id, // Supondo que o ID da carteira está aqui
+      // 2. Converta os dados para o formato que o backend espera
+      quantity: parseInt(data.quantity, 10), // Converte string para número inteiro
+      price: parseFloat(data.price.replace(",", ".")), // Converte string para número com casas decimais
+      executedAt: data.executedAt.toISOString(), // Converte a data para o formato ISO 8601
+    };
+
+    console.log("Pronto para enviar:", transactionData);
+    // TODO: Chamar a sua função que faz a requisição POST para o backend aqui
+    // ex: api.post('/transactions', transactionData);
+  };
+
   if (isLoading) {
     return (
       <View style={styles.container}>
@@ -24,41 +40,49 @@ export const CustomHeader = () => {
   }
 
   return (
-    <View style={styles.container}>
-      {/* Seção Esquerda: Informações da Carteira */}
-      <View style={styles.walletInfoContainer}>
-        <Text style={styles.walletName} numberOfLines={1}>
-          {authState.wallet?.name}
-        </Text>
-        <Text style={styles.walletDescription} numberOfLines={1}>
-          {authState.wallet?.description}
-        </Text>
+    <>
+      <View style={styles.container}>
+        {/* Seção Esquerda: Informações da Carteira */}
+        <View style={styles.walletInfoContainer}>
+          <Text style={styles.walletName} numberOfLines={1}>
+            {authState.wallet?.name}
+          </Text>
+          <Text style={styles.walletDescription} numberOfLines={1}>
+            {authState.wallet?.description}
+          </Text>
+        </View>
+
+        {/* Seção Direita: Botões de Ação */}
+        <View style={styles.actionsContainer}>
+          <Pressable
+            style={styles.actionButton}
+            onPress={() => {
+              /* Ação de Refresh aqui */
+            }}
+          >
+            <FontAwesome5
+              name="sync-alt"
+              size={18}
+              color={COLORS.textSecondary}
+            />
+          </Pressable>
+          <Pressable
+            style={styles.actionButton}
+            // 4. Ao pressionar, mude o estado para true para abrir o modal
+            onPress={() => setModalVisible(true)}
+          >
+            <FontAwesome5 name="plus" size={20} color={COLORS.textSecondary} />
+          </Pressable>
+        </View>
       </View>
 
-      {/* Seção Direita: Botões de Ação */}
-      <View style={styles.actionsContainer}>
-        <Pressable
-          style={styles.actionButton}
-          onPress={() => {
-            /* Ação de Refresh aqui */
-          }}
-        >
-          <FontAwesome5
-            name="sync-alt"
-            size={18}
-            color={COLORS.textSecondary}
-          />
-        </Pressable>
-        <Pressable
-          style={styles.actionButton}
-          onPress={() => {
-            /* Ação de Adicionar Ativo aqui */
-          }}
-        >
-          <FontAwesome5 name="plus" size={20} color={COLORS.textSecondary} />
-        </Pressable>
-      </View>
-    </View>
+      {/* 5. Renderize o modal aqui. Ele só será visível quando isModalVisible for true */}
+      <AddAtivoModal
+        visible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        onSave={handleSaveTransaction} // Passe a função de salvar para o modal
+      />
+    </>
   );
 };
 
