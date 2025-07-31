@@ -39,22 +39,18 @@ export const PortfolioTable = () => {
     "Saldo Atual",
   ];
   const columnWidths = [100, 70, 120, 120, 100, 120, 120];
-
-  // Função para renderizar cada linha, aplicando estilos e formatação.
   const renderItem = (item: PortfolioItem, index: number) => {
     const gainLoss = parseFloat(item.gainLossPercent);
     let variationStyle = styles.neutralText;
     if (gainLoss > 0) variationStyle = styles.positiveText;
     if (gainLoss < 0) variationStyle = styles.negativeText;
 
-    // **CORREÇÃO:** Cada célula agora é um componente <Text> explícito.
-    // Isso nos dá controle total sobre o estilo e resolve o aviso de "missing key".
     const rowData = [
       <View key={1} style={styles.assetCell}>
         <Image
           source={{ uri: item.logoUrl }}
           style={styles.logo}
-          resizeMode="contain"
+          contentFit="contain"
         />
         <Text style={styles.assetCellText}>{item.stockSymbol}</Text>
       </View>,
@@ -191,19 +187,19 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   rowStriped: {
-    backgroundColor: COLORS.card, // Cor para linhas zebradas, melhora a leitura
+    backgroundColor: COLORS.card,
   },
   rowText: {
     textAlign: "center",
     color: COLORS.textSecondary,
   },
   positiveText: {
-    color: "#4CAF50", // Verde
+    color: COLORS.positive,
     textAlign: "center",
     fontWeight: "bold",
   },
   negativeText: {
-    color: "#F44336", // Vermelho
+    color: COLORS.negative,
     textAlign: "center",
     fontWeight: "bold",
   },

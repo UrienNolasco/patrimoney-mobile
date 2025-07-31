@@ -11,21 +11,36 @@ import {
 } from "react-native";
 import { AddAtivoModal } from "./AddAtivoModal";
 import { TransactionFormData } from "@/types/transactions";
+import { refreshPortfolio } from "@/services/porfolioService";
 
 
 export const CustomHeader = () => {
   const { authState, isLoading } = useAuth();
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [ToastVisible, setToastVisible] = useState(false);
+
+
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await refreshPortfolio();
+      alert("A atualização foi solicitada!");
+    } catch (error) {
+      alert("Falha ao solicitar a atualização.");
+    } finally {
+      setIsRefreshing(false); 
+    }
+  };
 
   const handleSaveTransaction = (data: TransactionFormData) => {
-    // 1. Adicione o walletId que você já tem no seu authState
     const transactionData = {
       ...data,
-      walletId: authState.wallet?.id, // Supondo que o ID da carteira está aqui
-      // 2. Converta os dados para o formato que o backend espera
-      quantity: parseInt(data.quantity, 10), // Converte string para número inteiro
-      price: parseFloat(data.price.replace(",", ".")), // Converte string para número com casas decimais
-      executedAt: data.executedAt.toISOString(), // Converte a data para o formato ISO 8601
+      walletId: authState.wallet?.id, 
+      quantity: parseInt(data.quantity, 10),
+      price: parseFloat(data.price.replace(",", ".")),
+      executedAt: data.executedAt.toISOString(),
     };
 
     console.log("Pronto para enviar:", transactionData);
@@ -58,9 +73,8 @@ export const CustomHeader = () => {
         <View style={styles.actionsContainer}>
           <Pressable
             style={styles.actionButton}
-            onPress={() => {
-              /* Ação de Refresh aqui */
-            }}
+            onPress={handleRefresh}
+            disabled={isRefreshing}
           >
             <FontAwesome5
               name="sync-alt"

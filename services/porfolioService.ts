@@ -12,3 +12,12 @@ export const fetchPortfolioData = async (): Promise<PortfolioApiResponse> => {
     throw error;
   }
 };
+
+export const refreshPortfolio = async (): Promise<void> => {
+  try {
+    await api.post(`${PORTFOLIO_ENDPOINT}/refresh`);
+  } catch (error) {
+    console.error("Erro ao acionar o refresh do portfólio:", error);
+    throw error;
+  }
+};
