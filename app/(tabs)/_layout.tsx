@@ -6,6 +6,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { Tabs } from "expo-router";
 import React from "react";
+import Toast from "react-native-toast-message";
 import { COLORS } from "../../constants/colors"; // Ajuste o caminho se necessário
 
 export default function TabLayout() {

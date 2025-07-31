@@ -1,5 +1,7 @@
 import { COLORS } from "@/constants/colors";
 import { useAuth } from "@/context/AuthContext"; // Importe seu hook de autenticação
+import { refreshPortfolio } from "@/services/porfolioService";
+import { TransactionFormData } from "@/types/transactions";
 import { FontAwesome5 } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
@@ -9,35 +11,41 @@ import {
   Text,
   View,
 } from "react-native";
+import Toast, { ErrorToast, SuccessToast } from "react-native-toast-message";
 import { AddAtivoModal } from "./AddAtivoModal";
-import { TransactionFormData } from "@/types/transactions";
-import { refreshPortfolio } from "@/services/porfolioService";
-
 
 export const CustomHeader = () => {
   const { authState, isLoading } = useAuth();
   const [isModalVisible, setModalVisible] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [ToastVisible, setToastVisible] = useState(false);
-
 
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
     try {
       await refreshPortfolio();
-      alert("A atualização foi solicitada!");
+      Toast.show({
+        type: "success",
+        text1: "Sucesso! 👋",
+        text2: "Seu portfólio está sendo atualizado.",
+        position: "bottom",
+        visibilityTime: 5000,
+      });
     } catch (error) {
-      alert("Falha ao solicitar a atualização.");
+      Toast.show({
+        type: "error",
+        text1: "Erro",
+        text2: "Não foi possível solicitar a atualização.",
+      });
     } finally {
-      setIsRefreshing(false); 
+      setIsRefreshing(false);
     }
   };
 
   const handleSaveTransaction = (data: TransactionFormData) => {
     const transactionData = {
       ...data,
-      walletId: authState.wallet?.id, 
+      walletId: authState.wallet?.id,
       quantity: parseInt(data.quantity, 10),
       price: parseFloat(data.price.replace(",", ".")),
       executedAt: data.executedAt.toISOString(),

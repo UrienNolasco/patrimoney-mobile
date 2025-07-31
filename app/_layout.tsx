@@ -1,9 +1,14 @@
 import { Href, Stack, useRouter, useSegments } from "expo-router";
 import React, { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
+import Toast, {
+  ErrorToast,
+  SuccessToast,
+  ToastConfigParams,
+} from "react-native-toast-message";
+
 import { COLORS } from "../constants/colors";
 import { AuthProvider, useAuth } from "../context/AuthContext";
-import Toast from "react-native-toast-message";
 
 const ProtectedLayout = () => {
   const { authState, isLoading } = useAuth();
@@ -16,11 +21,9 @@ const ProtectedLayout = () => {
     const isAuthenticated = authState.isAuthenticated;
     const inAuthGroup = segments[0] === "(auth)";
 
-
     if (!isAuthenticated && !inAuthGroup) {
       router.replace("/signin");
-    }
-    else if (isAuthenticated && inAuthGroup) {
+    } else if (isAuthenticated && inAuthGroup) {
       router.replace("/(tabs)/resumo" as Href);
     }
   }, [isLoading, authState.isAuthenticated, segments]);
@@ -43,7 +46,6 @@ const ProtectedLayout = () => {
     );
   }
 
-
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(tabs)" />
@@ -55,11 +57,52 @@ const ProtectedLayout = () => {
   );
 };
 
+const toastConfig = {
+  success: (props: ToastConfigParams<any>) => (
+    <SuccessToast
+      {...props}
+      style={{
+        backgroundColor: COLORS.card,
+        borderLeftColor: COLORS.positive,
+      }}
+      text1Style={{
+        color: COLORS.textPrimary,
+        fontSize: 16, 
+        fontWeight: "bold",
+      }}
+      text2Style={{
+        color: COLORS.textSecondary,
+        fontSize: 14,
+      }}
+    />
+  ),
+
+  error: (props: ToastConfigParams<any>) => (
+    <ErrorToast
+      {...props}
+
+      style={{
+        backgroundColor: COLORS.card,
+        borderLeftColor: COLORS.negative,
+      }}
+      text1Style={{
+        color: COLORS.textPrimary,
+        fontSize: 16,
+        fontWeight: "bold",
+      }}
+      text2Style={{
+        color: COLORS.textSecondary,
+        fontSize: 14,
+      }}
+    />
+  ),
+};
+
 export default function RootLayout() {
   return (
     <AuthProvider>
       <ProtectedLayout />
-      <Toast />
+      <Toast config={toastConfig} />
     </AuthProvider>
   );
 }
