@@ -55,20 +55,19 @@ export const CustomHeader = () => {
     };
 
     try {
-      console.log("Pronto para enviar:", transactionData);
-
       await saveTransaction(transactionData);
+
+      handleCloseModal();
+
+      await handleRefresh();
 
       Toast.show({
         type: "success",
         text1: "Sucesso!",
         text2: "Seu ativo foi adicionado à carteira.",
       });
-
-      handleCloseModal();
-
-      await handleRefresh();
     } catch (error) {
+      handleCloseModal();
       Toast.show({
         type: "error",
         text1: "Erro ao Salvar",
@@ -88,7 +87,6 @@ export const CustomHeader = () => {
   return (
     <>
       <View style={styles.container}>
-        {/* Seção Esquerda: Informações da Carteira */}
         <View style={styles.walletInfoContainer}>
           <Text style={styles.walletName} numberOfLines={1}>
             {authState.wallet?.name}
@@ -98,7 +96,6 @@ export const CustomHeader = () => {
           </Text>
         </View>
 
-        {/* Seção Direita: Botões de Ação */}
         <View style={styles.actionsContainer}>
           <Pressable
             style={styles.actionButton}
@@ -113,7 +110,6 @@ export const CustomHeader = () => {
           </Pressable>
           <Pressable
             style={styles.actionButton}
-            // 4. Ao pressionar, mude o estado para true para abrir o modal
             onPress={() => setModalVisible(true)}
           >
             <FontAwesome5 name="plus" size={20} color={COLORS.textSecondary} />
@@ -121,12 +117,11 @@ export const CustomHeader = () => {
         </View>
       </View>
 
-      {/* 5. Renderize o modal aqui. Ele só será visível quando isModalVisible for true */}
       <AddAtivoModal
         visible={isModalVisible}
         onClose={() => setModalVisible(false)}
-        onSave={handleSaveTransaction} // Passe a função de salvar para o modal
-        isSaving={isSaving} // Passe o estado de carregamento para o modal
+        onSave={handleSaveTransaction}
+        isSaving={isSaving} 
       />
     </>
   );
@@ -139,12 +134,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: COLORS.background, // Cor de fundo do header
+    backgroundColor: COLORS.background,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.card, // Uma linha sutil para separar do conteúdo
+    borderBottomColor: COLORS.card,
   },
   walletInfoContainer: {
-    flex: 1, // Permite que o nome da carteira encolha se necessário
+    flex: 1, 
     marginRight: 16,
   },
   walletName: {
@@ -162,8 +157,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   actionButton: {
-    marginLeft: 20, // Espaçamento entre os botões
-    padding: 4, // Aumenta a área de toque
+    marginLeft: 20,
+    padding: 4,
   },
 });
 

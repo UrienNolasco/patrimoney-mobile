@@ -14,8 +14,8 @@ import {
 } from "react-native";
 import Modal from "react-native-modal"; // <-- MUDANÇA IMPORTANTE
 import RNPickerSelect from "react-native-picker-select";
-import { FormInput } from "./FormInput";
 import Toast from "react-native-toast-message";
+import { FormInput } from "./FormInput";
 
 interface AddAtivoModalProps {
   visible: boolean;
@@ -208,10 +208,10 @@ export const AddAtivoModal: React.FC<AddAtivoModalProps> = ({
 const styles = StyleSheet.create({
   modal: {
     justifyContent: "center",
-    margin: 3, 
+    margin: 3,
   },
   modalContent: {
-    backgroundColor: COLORS.background, 
+    backgroundColor: COLORS.background,
     marginHorizontal: 20,
     borderRadius: 20,
     padding: 20,
@@ -238,8 +238,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: COLORS.textPrimary,
   },
-  body: {
-  },
+  body: {},
   footer: {
     marginTop: 20,
     paddingTop: 15,
@@ -247,7 +246,7 @@ const styles = StyleSheet.create({
     borderTopColor: COLORS.card,
   },
   saveButton: {
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.card,
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
