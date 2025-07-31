@@ -1,5 +1,6 @@
 import { COLORS } from "@/constants/colors";
 import { useAuth } from "@/context/AuthContext"; // Importe seu hook de autenticação
+import { useCreateTransaction } from "@/hooks/useCreateTransaction";
 import { refreshPortfolio } from "@/services/porfolioService";
 import { TransactionFormData } from "@/types/transactions";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -11,14 +12,16 @@ import {
   Text,
   View,
 } from "react-native";
-import Toast, { ErrorToast, SuccessToast } from "react-native-toast-message";
+import Toast from "react-native-toast-message";
 import { AddAtivoModal } from "./AddAtivoModal";
 
 export const CustomHeader = () => {
   const { authState, isLoading } = useAuth();
   const [isModalVisible, setModalVisible] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const { saveTransaction, isLoading: isSaving } = useCreateTransaction();
 
+  const handleCloseModal = () => setModalVisible(false);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -42,7 +45,7 @@ export const CustomHeader = () => {
     }
   };
 
-  const handleSaveTransaction = (data: TransactionFormData) => {
+  const handleSaveTransaction = async (data: TransactionFormData) => {
     const transactionData = {
       ...data,
       walletId: authState.wallet?.id,
@@ -51,9 +54,27 @@ export const CustomHeader = () => {
       executedAt: data.executedAt.toISOString(),
     };
 
-    console.log("Pronto para enviar:", transactionData);
-    // TODO: Chamar a sua função que faz a requisição POST para o backend aqui
-    // ex: api.post('/transactions', transactionData);
+    try {
+      console.log("Pronto para enviar:", transactionData);
+
+      await saveTransaction(transactionData);
+
+      Toast.show({
+        type: "success",
+        text1: "Sucesso!",
+        text2: "Seu ativo foi adicionado à carteira.",
+      });
+
+      handleCloseModal();
+
+      await handleRefresh();
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Erro ao Salvar",
+        text2: "Não foi possível adicionar o ativo. Tente novamente.",
+      });
+    }
   };
 
   if (isLoading) {
@@ -105,6 +126,7 @@ export const CustomHeader = () => {
         visible={isModalVisible}
         onClose={() => setModalVisible(false)}
         onSave={handleSaveTransaction} // Passe a função de salvar para o modal
+        isSaving={isSaving} // Passe o estado de carregamento para o modal
       />
     </>
   );

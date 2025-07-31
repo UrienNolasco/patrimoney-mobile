@@ -7,7 +7,7 @@ export const api = axios.create({
   baseURL: API_URL,
 });
 
-const AUTH_TOKEN_KEY = "my-auth-token"; 
+const AUTH_TOKEN_KEY = "my-auth-token";
 
 interface User {
   id: string;
@@ -109,7 +109,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
       setAuthState({
         token: access_token,
         user: userResponse.data,
-        wallet: walletResponse.data, 
+        wallet: walletResponse.data,
         isAuthenticated: true,
       });
 
