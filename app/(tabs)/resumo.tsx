@@ -10,6 +10,7 @@ import React from "react";
 import {
   ActivityIndicator,
   FlatList,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -73,7 +74,7 @@ export default function Resumo() {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Minha Carteira</Text>
       </View>
@@ -92,7 +93,7 @@ export default function Resumo() {
         <Text style={styles.sectionTitle}>Meus Ativos</Text>
         <PortfolioTable />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
