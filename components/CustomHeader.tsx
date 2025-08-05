@@ -1,5 +1,6 @@
 import { COLORS } from "@/constants/colors";
 import { useAuth } from "@/context/AuthContext"; // Importe seu hook de autenticação
+import { usePortfolio } from "@/context/PortfolioContext";
 import { useCreateTransaction } from "@/hooks/useCreateTransaction";
 import { refreshPortfolio } from "@/services/porfolioService";
 import { TransactionFormData } from "@/types/transactions";
@@ -20,6 +21,7 @@ export const CustomHeader = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { saveTransaction, isLoading: isSaving } = useCreateTransaction();
+  const { refetchPortfolio } = usePortfolio();
 
   const handleCloseModal = () => setModalVisible(false);
 
@@ -27,6 +29,7 @@ export const CustomHeader = () => {
     setIsRefreshing(true);
     try {
       await refreshPortfolio();
+      await refetchPortfolio();
       Toast.show({
         type: "success",
         text1: "Sucesso! 👋",
@@ -60,6 +63,8 @@ export const CustomHeader = () => {
       handleCloseModal();
 
       await handleRefresh();
+
+      await refetchPortfolio();
 
       Toast.show({
         type: "success",
@@ -121,7 +126,7 @@ export const CustomHeader = () => {
         visible={isModalVisible}
         onClose={() => setModalVisible(false)}
         onSave={handleSaveTransaction}
-        isSaving={isSaving} 
+        isSaving={isSaving}
       />
     </>
   );
@@ -139,7 +144,7 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.card,
   },
   walletInfoContainer: {
-    flex: 1, 
+    flex: 1,
     marginRight: 16,
   },
   walletName: {

@@ -7,6 +7,7 @@ import Toast, {
   ToastConfigParams,
 } from "react-native-toast-message";
 
+import { PortfolioProvider } from "@/context/PortfolioContext";
 import { COLORS } from "../constants/colors";
 import { AuthProvider, useAuth } from "../context/AuthContext";
 
@@ -67,7 +68,7 @@ const toastConfig = {
       }}
       text1Style={{
         color: COLORS.textPrimary,
-        fontSize: 16, 
+        fontSize: 16,
         fontWeight: "bold",
       }}
       text2Style={{
@@ -80,7 +81,6 @@ const toastConfig = {
   error: (props: ToastConfigParams<any>) => (
     <ErrorToast
       {...props}
-
       style={{
         backgroundColor: COLORS.card,
         borderLeftColor: COLORS.negative,
@@ -100,9 +100,11 @@ const toastConfig = {
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <ProtectedLayout />
-      <Toast config={toastConfig} />
-    </AuthProvider>
+    <PortfolioProvider>
+      <AuthProvider>
+        <ProtectedLayout />
+        <Toast config={toastConfig} />
+      </AuthProvider>
+    </PortfolioProvider>
   );
 }

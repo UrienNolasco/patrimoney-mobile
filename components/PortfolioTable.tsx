@@ -9,7 +9,7 @@ import {
 import { Row, Table } from "react-native-table-component";
 
 import { COLORS } from "@/constants/colors";
-import { usePortfolioTable } from "@/hooks/UsePortfolioTable";
+import { usePortfolio } from "@/context/PortfolioContext";
 import { PortfolioItem } from "@/types/portfolio";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Image } from "expo-image";
@@ -27,7 +27,7 @@ const formatPercentage = (value: string): string => {
 };
 
 export const PortfolioTable = () => {
-  const { items, isLoading, error } = usePortfolioTable();
+  const { items, isLoading, error } = usePortfolio();
 
   const tableHead = [
     "Ativo",

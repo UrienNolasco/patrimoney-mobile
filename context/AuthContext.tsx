@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-const API_URL = "http://192.168.0.218:3000";
+const API_URL = "http://192.168.0.112:3000";
 export const api = axios.create({
   baseURL: API_URL,
 });
@@ -37,6 +37,7 @@ interface AuthContextData {
   register(userData: any): Promise<{ success: boolean; error?: string }>;
   login(credentials: any): Promise<{ success: boolean; error?: string }>;
   logout(): void;
+  updateWallet(walletData: Partial<Wallet>): void;
 }
 
 const AuthContext = createContext<AuthContextData | undefined>(undefined);
@@ -59,6 +60,13 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
     wallet: null,
   });
   const [isLoading, setIsLoading] = useState(true);
+
+  const updateWallet = (walletData: Partial<Wallet>) => {
+    setAuthState((prevState) => ({
+      ...prevState,
+      wallet: prevState.wallet ? { ...prevState.wallet, ...walletData } : null,
+    }));
+  };
 
   useEffect(() => {
     const loadTokenAndUser = async () => {
@@ -155,6 +163,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({
     register,
     login,
     logout,
+    updateWallet,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
